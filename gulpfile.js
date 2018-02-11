@@ -1,6 +1,12 @@
 // Port#
 const PORT = '8000';
 
+// Paths
+const scssPathSource = 'js/xType/_src/*.scss';
+const scssPathDestination = 'js/xType/_assets';
+const jsPathSource = 'js/xType/_src/*.js';
+const jsPathDestination = 'js/xType/_assets';
+
 // Imports
 var gulp   = require('gulp'),
     exec   = require('child_process').exec,
@@ -39,59 +45,69 @@ gulp.task('stopWebServer', (cb) => {
 gulp.task('watch', (cb) => {
   livereload.listen();
 
-  // Watching HTML files for any changes
+  // Watching HTML | CSS | JS files for any changes
   watch('./**/*.html', (e) => {
     gulp.src(e.path)
     .pipe(plumber())
     .pipe(livereload());
   });
-  console.log('Watching your HTML files.');
+  watch('./**/*.css', (e) => {
+    gulp.src(e.path)
+    .pipe(plumber())
+    .pipe(livereload());
+  });
+  watch('./**/*.js', (e) => {
+    gulp.src(e.path)
+    .pipe(plumber())
+    .pipe(livereload());
+  });
+  console.log('Watching your HTML | CSS | JS files.');
 
   // Compile a Riot.js tag file
-  watch('_src/tag/*.tag', (e) => {
-    gulp.src(e.path)
-    .pipe(riot({
-      compact: true
-    }))
-    .pipe(minify({
-      ext: {
-        min: '.min.js'
-      },
-      noSource: true
-    }))
-    .pipe(gulp.dest('_assets/tag'));
-  });
-  console.log('Watching your Riot.js tag files.');
+  // watch('_src/tag/*.tag', (e) => {
+  //   gulp.src(e.path)
+  //   .pipe(riot({
+  //     compact: true
+  //   }))
+  //   .pipe(minify({
+  //     ext: {
+  //       min: '.min.js'
+  //     },
+  //     noSource: true
+  //   }))
+  //   .pipe(gulp.dest('_assets/tag'));
+  // });
+  // console.log('Watching your Riot.js tag files.');
 
   // Compile an SCSS file
-  watch('_src/scss/*.scss', (e) => {
-    gulp.src(e.path)
-    .pipe(plumber())
-    .pipe(sass({
-      outputStyle: 'compressed'
-    }).on('error', sass.logError))
-    .pipe(rename({
-      suffix: ".min"
-    }))
-    .pipe(gulp.dest('_assets/css'))
-    .pipe(livereload());
-  });
-  console.log('Watching your SCSS files.');
+  // watch(scssPathSource, (e) => {
+  //   gulp.src(e.path)
+  //   .pipe(plumber())
+  //   .pipe(sass({
+  //     outputStyle: 'compressed'
+  //   }).on('error', sass.logError))
+  //   .pipe(rename({
+  //     suffix: ".min"
+  //   }))
+  //   .pipe(gulp.dest(scssPathDestination))
+  //   .pipe(livereload());
+  // });
+  // console.log('Watching your SCSS files.');
 
   // Minify a JS file
-  watch('_src/js/*.js', (e) => {
-    gulp.src(e.path)
-    .pipe(plumber())
-    .pipe(minify({
-      ext: {
-        min: '.min.js'
-      },
-      noSource: true
-    }))
-    .pipe(gulp.dest('_assets/js'))
-    .pipe(livereload());
-  });
-  console.log('Watching your JS files.');
+  // watch(jsPathSource, (e) => {
+  //   gulp.src(e.path)
+  //   .pipe(plumber())
+  //   .pipe(minify({
+  //     ext: {
+  //       min: '.min.js'
+  //     },
+  //     noSource: true
+  //   }))
+  //   .pipe(gulp.dest(jsPathDestination))
+  //   .pipe(livereload());
+  // });
+  // console.log('Watching your JS files.');
 
   cb();
 });
@@ -101,4 +117,5 @@ gulp.task('sayHello', function() {
   console.log("Hi, I'm always with you!");
 });
 
-gulp.task('default', ['watch']);
+// run -> gulp (for default tasks)
+gulp.task('default', ['startWebServer', 'watch']);
