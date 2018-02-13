@@ -2,10 +2,10 @@
 const PORT = '8000';
 
 // Paths
-const scssPathSource = 'js/xType/_src/*.scss';
-const scssPathDestination = 'js/xType/_assets';
-const jsPathSource = 'js/xType/_src/*.js';
-const jsPathDestination = 'js/xType/_assets';
+const scssPathSource = 'php/projects/xtype/_src/*.scss';
+const scssPathDestination = 'php/projects/xtype/_assets';
+const jsPathSource = 'php/projects/xtype/_src/*.js';
+const jsPathDestination = 'php/projects/xtype/_assets';
 
 // Imports
 var gulp   = require('gulp'),
@@ -26,7 +26,7 @@ gulp.task('startWebServer', (cb) => {
       return cb(err);
     }
   });
-  console.log('The web server has started.');
+  console.log('------> The web server has started.');
   cb();
 });
 
@@ -37,7 +37,7 @@ gulp.task('stopWebServer', (cb) => {
       return cb(err);
     }
   });
-  console.log('The web server has stopped.');
+  console.log('------> The web server has stopped.');
   cb();
 });
 
@@ -45,76 +45,87 @@ gulp.task('stopWebServer', (cb) => {
 gulp.task('watch', (cb) => {
   livereload.listen();
 
-  // Watching HTML | CSS | JS files for any changes
+  /* Watching HTML | PHP| CSS | JS files for any changes */
+  /*******************************************************/
+
   watch('./**/*.html', (e) => {
     gulp.src(e.path)
     .pipe(plumber())
     .pipe(livereload());
   });
-  watch('./**/*.css', (e) => {
+
+  watch('./**/*.php', (e) => {
     gulp.src(e.path)
     .pipe(plumber())
     .pipe(livereload());
   });
-  watch('./**/*.js', (e) => {
+
+  // watch('./**/*.css', (e) => {
+  //   gulp.src(e.path)
+  //   .pipe(plumber())
+  //   .pipe(livereload());
+  // });
+
+  // watch('./**/*.js', (e) => {
+  //   gulp.src(e.path)
+  //   .pipe(plumber())
+  //   .pipe(livereload());
+  // });
+
+  console.log('------> Watching your HTML | PHP | CSS | JS files.');
+
+
+  /* Watching a Riot | JS | SCSS files */
+  /*************************************/
+
+  watch('_src/tag/*.tag', (e) => {
+    gulp.src(e.path)
+    .pipe(riot({
+      compact: true
+    }))
+    .pipe(minify({
+      ext: {
+        min: '.min.js'
+      },
+      noSource: true
+    }))
+    .pipe(gulp.dest('_assets/tag'));
+  });
+
+  watch(scssPathSource, (e) => {
     gulp.src(e.path)
     .pipe(plumber())
+    .pipe(sass({
+      outputStyle: 'compressed'
+    }).on('error', sass.logError))
+    .pipe(rename({
+      suffix: ".min"
+    }))
+    .pipe(gulp.dest(scssPathDestination))
     .pipe(livereload());
   });
-  console.log('Watching your HTML | CSS | JS files.');
 
-  // Compile a Riot.js tag file
-  // watch('_src/tag/*.tag', (e) => {
-  //   gulp.src(e.path)
-  //   .pipe(riot({
-  //     compact: true
-  //   }))
-  //   .pipe(minify({
-  //     ext: {
-  //       min: '.min.js'
-  //     },
-  //     noSource: true
-  //   }))
-  //   .pipe(gulp.dest('_assets/tag'));
-  // });
-  // console.log('Watching your Riot.js tag files.');
+  watch(jsPathSource, (e) => {
+    gulp.src(e.path)
+    .pipe(plumber())
+    .pipe(minify({
+      ext: {
+        min: '.min.js'
+      },
+      noSource: true
+    }))
+    .pipe(gulp.dest(jsPathDestination))
+    .pipe(livereload());
+  });
 
-  // Compile an SCSS file
-  // watch(scssPathSource, (e) => {
-  //   gulp.src(e.path)
-  //   .pipe(plumber())
-  //   .pipe(sass({
-  //     outputStyle: 'compressed'
-  //   }).on('error', sass.logError))
-  //   .pipe(rename({
-  //     suffix: ".min"
-  //   }))
-  //   .pipe(gulp.dest(scssPathDestination))
-  //   .pipe(livereload());
-  // });
-  // console.log('Watching your SCSS files.');
-
-  // Minify a JS file
-  // watch(jsPathSource, (e) => {
-  //   gulp.src(e.path)
-  //   .pipe(plumber())
-  //   .pipe(minify({
-  //     ext: {
-  //       min: '.min.js'
-  //     },
-  //     noSource: true
-  //   }))
-  //   .pipe(gulp.dest(jsPathDestination))
-  //   .pipe(livereload());
-  // });
-  // console.log('Watching your JS files.');
+  console.log('------> Watching + Minifing a Riot | JS | SCSS files.');
 
   cb();
 });
 
 // Say hello
 gulp.task('sayHello', function() {
-  console.log("Hi, I'm always with you!");
+  console.log("------> Hi, I'm always with you!");
 });
 
 // run -> gulp (for default tasks)
