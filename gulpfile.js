@@ -2,10 +2,10 @@
 const PORT = '8000';
 
 // Paths
-const scssPathSource = 'php/projects/xtype/_src/*.scss';
-const scssPathDestination = 'php/projects/xtype/_assets';
-const jsPathSource = 'php/projects/xtype/_src/*.js';
-const jsPathDestination = 'php/projects/xtype/_assets';
+const scssPathSource = 'php/projects/x_connect/_src/*.scss';
+const scssPathDestination = 'php/projects/x_connect/_assets';
+const jsPathSource = 'php/projects/x_connect/_src/*.js';
+const jsPathDestination = 'php/projects/x_connect/_assets';
 
 // Imports
 var gulp   = require('gulp'),
@@ -26,7 +26,9 @@ gulp.task('startWebServer', (cb) => {
       return cb(err);
     }
   });
-  console.log('------> The web server has started.');
+  console.log('==================================');
+  console.log('The web server has started.');
+  console.log('==================================');
   cb();
 });
 
@@ -37,7 +39,9 @@ gulp.task('stopWebServer', (cb) => {
       return cb(err);
     }
   });
-  console.log('------> The web server has stopped.');
+  console.log('==================================');
+  console.log('The web server has stopped.');
+  console.log('==================================');
   cb();
 });
 
@@ -60,19 +64,21 @@ gulp.task('watch', (cb) => {
     .pipe(livereload());
   });
 
-  // watch('./**/*.css', (e) => {
-  //   gulp.src(e.path)
-  //   .pipe(plumber())
-  //   .pipe(livereload());
-  // });
+  watch('./**/*.css', (e) => {
+    gulp.src(e.path)
+    .pipe(plumber())
+    .pipe(livereload());
+  });
 
-  // watch('./**/*.js', (e) => {
-  //   gulp.src(e.path)
-  //   .pipe(plumber())
-  //   .pipe(livereload());
-  // });
+  watch('./**/*.js', (e) => {
+    gulp.src(e.path)
+    .pipe(plumber())
+    .pipe(livereload());
+  });
 
-  console.log('------> Watching your HTML | PHP | CSS | JS files.');
+  console.log('==================================');
+  console.log('Watching your HTML | PHP | CSS | JS files.');
+  console.log('==================================');
 
 
   /* Watching a Riot | JS | SCSS files */
@@ -118,14 +124,18 @@ gulp.task('watch', (cb) => {
     .pipe(livereload());
   });
 
-  console.log('------> Watching + Minifing a Riot | JS | SCSS files.');
+  console.log('==================================');
+  console.log('Watching + Minifing a Riot | JS | SCSS files.');
+  console.log('==================================');
 
   cb();
 });
 
 // Say hello
 gulp.task('sayHello', function() {
-  console.log("------> Hi, I'm always with you!");
+  console.log('==================================');
+  console.log("Hi, I'm always with you!");
+  console.log('==================================');
 });
 
 // run -> gulp (for default tasks)
