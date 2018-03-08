@@ -7,6 +7,11 @@ const scssPathDestination = 'php/projects/x_connect/_assets';
 const jsPathSource = 'php/projects/x_connect/_src/*.js';
 const jsPathDestination = 'php/projects/x_connect/_assets';
 
+// const scssPathSource = 'php/projects/x_connect/_src/scss/*.scss';
+// const scssPathDestination = 'php/projects/x_connect/_assets/css';
+// const jsPathSource = 'php/projects/x_connect/_src/js/*.js';
+// const jsPathDestination = 'php/projects/x_connect/_assets/js';
+
 // Imports
 var gulp   = require('gulp'),
     exec   = require('child_process').exec,
