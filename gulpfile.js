@@ -54,7 +54,7 @@ gulp.task('stopWebServer', (cb) => {
 gulp.task('watch', (cb) => {
   livereload.listen();
 
-  /* Watching HTML | PHP| CSS | JS files for any changes */
+  /* Watching HTML | PHP| CSS | JS | JSON files for any changes */
   /*******************************************************/
 
   watch('./**/*.html', (e) => {
@@ -81,8 +81,14 @@ gulp.task('watch', (cb) => {
     .pipe(livereload());
   });
 
+  watch('./**/*.json', (e) => {
+    gulp.src(e.path)
+    .pipe(plumber())
+    .pipe(livereload());
+  });
+
   console.log('==================================');
-  console.log('Watching your HTML | PHP | CSS | JS files.');
+  console.log('Watching your HTML | PHP | CSS | JS | JSON files.');
   console.log('==================================');
 
 
