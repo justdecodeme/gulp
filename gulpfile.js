@@ -154,49 +154,53 @@ gulp.task('watch', (cb) => {
   /* Minifying + Watching Riot | JS | SCSS files */
   /*************************************/
 
-  // watch('_src/tag/*.tag', (e) => {
-  //   gulp.src(e.path)
-  //   .pipe(riot({
-  //     compact: true
-  //   }))
-  //   .pipe(minify({
-  //     ext: {
-  //       min: '.min.js'
-  //     },
-  //     noSource: true
-  //   }))
-  //   .pipe(gulp.dest('_assets/tag'));
-  // });
+  watch('_src/tag/*.tag', (e) => {
+    gulp.src(e.path)
+    .pipe(riot({
+      compact: true
+    }))
+    .pipe(minify({
+      ext: {
+        min: '.min.js'
+      },
+      noSource: true
+    }))
+    .pipe(gulp.dest('_assets/tag'));
+  });
 
-  // watch(scssPathSource, (e) => {
-  //   gulp.src(e.path)
-  //   .pipe(plumber())
-  //   .pipe(sass({
-  //     outputStyle: 'compressed'
-  //   }).on('error', sass.logError))
-  //   .pipe(rename({
-  //     suffix: ".min"
-  //   }))
-  //   .pipe(gulp.dest(scssPathDestination))
-  //   .pipe(livereload());
-  // });
+  watch(scssPathSource, (e) => {
+    gulp.src(e.path)
+    .pipe(plumber())
+    .pipe(sourcemaps.init())
+    .pipe(sass({
+      outputStyle: 'compressed'
+    }).on('error', sass.logError))
+    .pipe(rename({
+      suffix: ".min"
+    }))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(scssPathDestination))
+    .pipe(livereload());
+  });
 
-  // watch(jsPathSource, (e) => {
-  //   gulp.src(e.path)
-  //   .pipe(plumber())
-  //   .pipe(minify({
-  //     ext: {
-  //       min: '.min.js'
-  //     },
-  //     noSource: true
-  //   }))
-  //   .pipe(gulp.dest(jsPathDestination))
-  //   .pipe(livereload());
-  // });
+  watch(jsPathSource, (e) => {
+    gulp.src(e.path)
+    .pipe(plumber())
+    .pipe(sourcemaps.init())
+    .pipe(minify({
+      ext: {
+        min: '.min.js'
+      },
+      noSource: true
+    }))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(jsPathDestination))
+    .pipe(livereload());
+  });
 
-  // console.log('==================================');
-  // console.log('Minifying + Watching Riot | JS | SCSS files.');
-  // console.log('==================================');
+  console.log('==================================');
+  console.log('Watching + Minifing a Riot | JS | SCSS files.');
+  console.log('==================================');
 
   cb();
 });
